@@ -1,0 +1,102 @@
+@import 'tailwindcss';
+
+:root,
+[data-tema='dia'] {
+  color-scheme: light;
+  --fundo: #f3f1e4;
+  --superficie: #ffffff;
+  --borda: #dddcc6;
+  --primaria: #4f6b3a;
+  --sobre-primaria: #ffffff;
+  --secundaria: #e9a9a9;
+  --sobre-secundaria: #26301f;
+  --matcha-forte: #4f6b3a;
+  --sobre-matcha-forte: #ffffff;
+  --destaque: #d9a441;
+  --sucesso: #4f6b3a;
+  --texto: #26301f;
+  --texto-suave: #56604a;
+}
+
+[data-tema='noite'] {
+  color-scheme: dark;
+  --fundo: #171d14;
+  --superficie: #222b1d;
+  --borda: #34402c;
+  --primaria: #a9c48a;
+  --sobre-primaria: #171d14;
+  --secundaria: #f0b7b7;
+  --sobre-secundaria: #171d14;
+  --matcha-forte: #4f6b3a;
+  --sobre-matcha-forte: #ffffff;
+  --destaque: #e3b95c;
+  --sucesso: #a9c48a;
+  --texto: #f1efe2;
+  --texto-suave: #b4bca6;
+}
+
+@theme inline {
+  --font-sans: 'Zen Maru Gothic', system-ui, sans-serif;
+  --color-fundo: var(--fundo);
+  --color-superficie: var(--superficie);
+  --color-borda: var(--borda);
+  --color-primaria: var(--primaria);
+  --color-sobre-primaria: var(--sobre-primaria);
+  --color-secundaria: var(--secundaria);
+  --color-sobre-secundaria: var(--sobre-secundaria);
+  --color-matcha-forte: var(--matcha-forte);
+  --color-sobre-matcha-forte: var(--sobre-matcha-forte);
+  --color-destaque: var(--destaque);
+  --color-sucesso: var(--sucesso);
+  --color-texto: var(--texto);
+  --color-texto-suave: var(--texto-suave);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: 'Zen Maru Gothic', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  font-size: 16px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primaria);
+  outline-offset: 2px;
+}
+
+@keyframes estrela-pula {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    transform: translateY(-10px) scale(1.15);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.estrela-pula {
+  animation: estrela-pula 400ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .estrela-pula {
+    animation: none;
+  }
+}

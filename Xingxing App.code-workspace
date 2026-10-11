@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"markdown.extension.completion.enabled": false,
+		"markdown.extension.tableFormatter.enabled": false
+	}
+}
