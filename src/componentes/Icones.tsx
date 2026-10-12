@@ -61,6 +61,27 @@ export function IconeCompras({ className }: Props) {
   )
 }
 
+export function IconeGuia({ className }: Props) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <path
+        d="M7 4.5h8.2A2.8 2.8 0 0 1 18 7.3V19.5H8.2A2.2 2.2 0 0 1 6 17.3V6.7A2.2 2.2 0 0 1 8.2 4.5H7z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 9.2h6M9 12.5h6M9 15.8h3.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
 export function IconeAjustes({ className }: Props) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
@@ -73,6 +94,21 @@ export function IconeAjustes({ className }: Props) {
       />
       <circle cx="9" cy="8" r="2.2" fill="currentColor" />
       <circle cx="15" cy="16" r="2.2" fill="currentColor" />
+    </svg>
+  )
+}
+
+export function IconeLapis({ className }: Props) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <path
+        d="M4 16.8V20h3.2L18.4 8.8l-3.2-3.2L4 16.8z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path d="M13.6 7.2l3.2 3.2" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   )
 }

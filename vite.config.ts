@@ -30,19 +30,19 @@ export default defineConfig({
         theme_color: '#F3F1E4',
         icons: [
           {
-            src: '/icons/icon-192.png',
+            src: '/icons/icon-192.png?v=2',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: '/icons/icon-512.png',
+            src: '/icons/icon-512.png?v=2',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: '/icons/icon-maskable-512.png',
+            src: '/icons/icon-maskable-512.png?v=2',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
@@ -50,6 +50,7 @@ export default defineConfig({
         ],
       },
       workbox: {
+        cacheId: 'xingxing-v2',
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
         navigateFallback: 'index.html',
       },

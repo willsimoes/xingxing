@@ -2,14 +2,18 @@ import { useState } from 'react'
 import { InstalarIphone } from './componentes/InstalarIphone'
 import { Estrela } from './componentes/Estrela'
 import { Navegacao, type Aba } from './componentes/Navegacao'
+import { ProvedorCasa } from './contexto/Casa'
 import { ProvedorSessao } from './contexto/Sessao'
+import { useCasa } from './hooks/useCasa'
 import { useSessao } from './hooks/useSessao'
 import { useTema } from './hooks/useTema'
 import { corSegura } from './lib/perfil'
+import { saldoNaSemana } from './lib/tarefas'
 import { problemaConfig } from './lib/supabase'
 import { Ajustes } from './telas/Ajustes'
 import { Abrindo, AvisoConfiguracao, Login, PerfilIndisponivel } from './telas/Acesso'
 import { Compras } from './telas/Compras'
+import { Guia } from './telas/Guia'
 import { Hoje } from './telas/Hoje'
 import { Tarefas } from './telas/Tarefas'
 
@@ -32,15 +36,21 @@ function ComSessao({ tema }: { tema: ReturnType<typeof useTema> }) {
   if (!sessao) return <Login />
   if (!perfil) return <PerfilIndisponivel />
 
-  return <Casa tema={tema} />
+  return (
+    <ProvedorCasa>
+      <Casa tema={tema} />
+    </ProvedorCasa>
+  )
 }
 
 function Casa({ tema }: { tema: ReturnType<typeof useTema> }) {
   const [aba, setAba] = useState<Aba>('hoje')
   const { perfil } = useSessao()
+  const { dados, semana, animacaoEstrela } = useCasa()
   if (!perfil) return null
 
   const cor = corSegura(perfil.cor)
+  const saldo = dados ? saldoNaSemana(dados.conclusoes, perfil.id, semana) : null
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col">
@@ -57,10 +67,11 @@ function Casa({ tema }: { tema: ReturnType<typeof useTema> }) {
         </div>
         <p
           className="flex min-h-11 shrink-0 items-center gap-1 rounded-full border border-borda bg-superficie px-3"
-          aria-label="0 estrelinhas"
+          aria-live="polite"
+          aria-label={saldo === null ? 'Carregando estrelinhas' : `${saldo} estrelinhas suas nesta semana`}
         >
-          <Estrela />
-          <span className="font-medium tabular-nums">0</span>
+          <Estrela key={animacaoEstrela} animar={animacaoEstrela > 0} />
+          <span className="font-medium tabular-nums">{saldo === null ? '…' : saldo}</span>
         </p>
       </header>
       <main className="flex-1 px-4 pb-4">
@@ -68,6 +79,7 @@ function Casa({ tema }: { tema: ReturnType<typeof useTema> }) {
         {aba === 'hoje' && <Hoje />}
         {aba === 'tarefas' && <Tarefas />}
         {aba === 'compras' && <Compras />}
+        {aba === 'guia' && <Guia />}
         {aba === 'ajustes' && <Ajustes escolha={tema.escolha} aoEscolher={tema.definir} />}
       </main>
       <Navegacao aba={aba} aoEscolher={setAba} />

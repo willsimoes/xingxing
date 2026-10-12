@@ -13,6 +13,10 @@ export function lerPerfil(valor: unknown): Perfil | null {
   return { id: linha.id, nome: linha.nome, emoji: linha.emoji, cor: linha.cor }
 }
 
+export function nomeDe(pessoas: Perfil[], id: string): string {
+  return pessoas.find((pessoa) => pessoa.id === id)?.nome ?? 'Alguém'
+}
+
 export function corSegura(cor: string): string | null {
   return /^#[0-9A-Fa-f]{6}$/.test(cor) ? cor : null
 }

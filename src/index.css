@@ -95,8 +95,16 @@ select {
   animation: estrela-pula 400ms ease;
 }
 
+.barra-enche {
+  transition: width 300ms ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .estrela-pula {
     animation: none;
+  }
+
+  .barra-enche {
+    transition: none;
   }
 }
