@@ -16,6 +16,7 @@ export default defineConfig({
         'icons/icon-192.png',
         'icons/icon-512.png',
         'icons/icon-maskable-512.png',
+        'sw-push.js',
       ],
       manifest: {
         name: 'Xingxing',
@@ -50,9 +51,10 @@ export default defineConfig({
         ],
       },
       workbox: {
-        cacheId: 'xingxing-v2',
+        cacheId: 'xingxing-v3',
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
         navigateFallback: 'index.html',
+        importScripts: ['/sw-push.js'],
       },
     }),
   ],

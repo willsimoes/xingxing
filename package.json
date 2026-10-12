@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "icones": "node scripts/gerar-icones.mjs"
+    "icones": "node scripts/gerar-icones.mjs",
+    "vapid": "node scripts/gerar-vapid.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",

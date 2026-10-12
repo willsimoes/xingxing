@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { IconeCheck } from '../componentes/Icones'
+import { PainelNotificacoes } from '../componentes/PainelNotificacoes'
 import { useSessao } from '../hooks/useSessao'
 import { corSegura } from '../lib/perfil'
 import type { EscolhaTema } from '../lib/tema'
@@ -105,6 +106,7 @@ export function Ajustes({ escolha, aoEscolher }: Props) {
           </div>
         )}
       </section>
+      <PainelNotificacoes />
       <button
         type="button"
         onClick={() => void aoSair()}

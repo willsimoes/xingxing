@@ -1,6 +1,6 @@
 # Xingxing
 
-PWA da casa para duas pessoas. Esta etapa entrega a lista de compras, o fechamento da meta semanal e a saúde dos cômodos. As notificações vêm depois.
+PWA da casa para duas pessoas. Esta etapa entrega as notificações, o commit e o deploy.
 
 ## Requisitos
 
@@ -116,6 +116,7 @@ O `.env` não entra no git.
 - O que um faz aparece para o outro sem recarregar a página, se os dois estiverem com o app aberto.
 - **Compras**: lista compartilhada. Dá para adicionar, marcar como comprado e limpar os comprados. “Comprar filtro” entra sozinha, vale 15 estrelinhas e, ao ser marcada, libera “Trocar filtros”. Desmarcar devolve as estrelinhas e bloqueia de novo, desde que a tarefa liberada ainda não tenha sido feita.
 - A sessão fica neste navegador. Fechar a aba não pede a senha de novo. Sair é que encerra.
+- **Notificações**, em Ajustes: ligar neste aparelho, escolher o que avisar e o horário do resumo. O aviso de verdade só sai depois do passo a passo de notificações abaixo. No iPhone, só com o app aberto pelo ícone da Tela de Início.
 
 ## Testar no computador
 
@@ -167,6 +168,95 @@ Quando o deploy existir, no Safari do iPhone:
 
 No computador, o equivalente de instalação agora é `npm run build` e `npm run preview`, e no Chrome usar “Instalar app” se o menu oferecer.
 
+## Notificações
+
+O app guarda a inscrição do aparelho e as preferências. Quem envia o aviso é uma função do Supabase. Sem os passos abaixo, o botão em Ajustes funciona, mas nenhum aviso sai.
+
+No iPhone o aviso pede iOS 16.4 ou mais novo, o Xingxing na Tela de Início e um toque seu em **Ativar notificações**. No Safari, dentro de uma aba, o iPhone não oferece isso.
+
+As chaves deste computador já foram geradas. A pública está em `src/lib/vapid.ts`. A privada e o segredo do envio estão em `.cursor/segredos-locais.json`, que não entra no git. Abra esse arquivo no Cursor quando o passo pedir um valor. Não cole a chave privada em lugar nenhum do repositório.
+
+Se um dia precisar de chaves novas, rode `npm run vapid`, troque a pública em `src/lib/vapid.ts`, atualize os segredos no Supabase e peça para os dois tocarem em **Ativar notificações** de novo.
+
+### 1. Ligar pg_cron e pg_net
+
+1. No painel do Supabase, abra **Database** e depois **Extensions**.
+2. Procure `pg_net`. Se estiver desligada, ligue.
+3. Procure `pg_cron`. Ligue também.
+4. Espere as duas ficarem verdes.
+
+### 2. Rodar o SQL das notificações
+
+1. Abra **SQL Editor** → **New query**.
+2. Copie o arquivo inteiro `supabase/migrations/20261012143000_notificacoes.sql`, cole e clique em **Run**.
+3. `Success. No rows returned` está certo. Um aviso amarelo sobre extensão significa que o passo 1 não ficou ligado: ligue e rode o arquivo de novo.
+4. Recarregue o app.
+
+### 3. Guardar o segredo no Vault
+
+Ainda no **SQL Editor**, nova query. Troque `COLE_O_SEGREDO` pelo valor `notificacaoSegredo` do arquivo `.cursor/segredos-locais.json`. A URL já é a do projeto.
+
+```sql
+select vault.create_secret('https://nbvvsymwkvofsybolfdi.supabase.co', 'project_url');
+select vault.create_secret('COLE_O_SEGREDO', 'notificacao_segredo');
+```
+
+Se disser que o segredo já existe, não crie de novo. Para trocar o valor:
+
+```sql
+select vault.update_secret(
+  (select id from vault.secrets where name = 'notificacao_segredo'),
+  'COLE_O_SEGREDO'
+);
+```
+
+### 4. Publicar a função que envia
+
+Isto pede o Supabase CLI, uma vez. No PowerShell, na pasta do app:
+
+```powershell
+npx supabase login
+npx supabase link --project-ref nbvvsymwkvofsybolfdi
+npx supabase secrets set VAPID_PUBLIC_KEY="cole a vapidPublica" VAPID_PRIVATE_KEY="cole a vapidPrivada" VAPID_SUBJECT="mailto:teste.cursor.xingxing@example.com" NOTIFICACAO_SEGREDO="cole o notificacaoSegredo"
+npx supabase functions deploy enviar-push --no-verify-jwt
+```
+
+`login` abre o navegador. Os quatro valores saem de `.cursor/segredos-locais.json`. A função não aceita a chave pública do app: só o banco, com esse segredo, consegue pedir o envio.
+
+### 5. O que cada aviso faz
+
+- Um conclui uma tarefa: o outro recebe, se **Quando o outro conclui** estiver ligado.
+- Alguém adiciona um item na lista (leite, não a compra da casa já marcada): o outro recebe, se **Lista de compras** estiver ligado.
+- Todo dia, no horário de Ajustes e no fuso da casa: quem deixou **Resumo do dia** ligado recebe as rotinas de hoje e as atrasadas. Se não houver nenhuma, não chega aviso. O relógio olha o minuto uma vez por minuto; mudar o horário vale no próximo dia nesse minuto.
+- **Desligar neste aparelho** remove só esta inscrição. O outro celular não muda.
+
+## Deploy na Vercel
+
+O plano é o Hobby, gratuito para este uso pessoal. O site precisa das duas variáveis do `.env` no momento do build. Elas não vão no git.
+
+1. Abra [https://vercel.com](https://vercel.com) e entre com a mesma conta GitHub do repositório `willsimoes/xingxing`.
+2. **Add New…** → **Project** e escolha o repositório `xingxing`.
+3. Framework: Vite. Deixe o comando de build `npm run build` e a pasta `dist`.
+4. Em **Environment Variables**, crie as duas, para Production:
+
+```bash
+VITE_SUPABASE_URL=https://nbvvsymwkvofsybolfdi.supabase.co
+VITE_SUPABASE_ANON_KEY=a chave publishable do .env
+```
+
+5. A chave é a que começa com `sb_publishable_`. Não cole a secret nem a service_role.
+6. Clique em **Deploy** e espere o endereço `https://alguma-coisa.vercel.app`.
+7. No Supabase, abra **Authentication** → **URL Configuration**. Em **Site URL**, cole o endereço da Vercel. Em **Redirect URLs**, cole o mesmo endereço. Salve.
+
+Cada `git push` na branch `main` publica de novo.
+
+No iPhone, com esse endereço HTTPS:
+
+1. Abra o site no Safari.
+2. Compartilhar → Adicionar à Tela de Início.
+3. Abra pelo ícone, entre, e em Ajustes toque em **Ativar notificações**.
+4. Aceite o pedido do sistema.
+
 ## Banco
 
-O esquema está em `supabase/migrations/20261011190000_esquema_inicial.sql`. Concluir e desfazer estão em `supabase/migrations/20261012070000_concluir_e_desfazer.sql`. Compras e o fechamento da meta estão em `supabase/migrations/20261012120000_compras_e_fechamento.sql`. As tarefas da casa estão em `supabase/seed.sql`. As tabelas não devem ser redesenhadas. Quem está logado lê e escreve; visitante anônimo não lê nada.
+O esquema está em `supabase/migrations/20261011190000_esquema_inicial.sql`. Concluir e desfazer estão em `supabase/migrations/20261012070000_concluir_e_desfazer.sql`. Compras e o fechamento da meta estão em `supabase/migrations/20261012120000_compras_e_fechamento.sql`. As notificações estão em `supabase/migrations/20261012143000_notificacoes.sql` e em `supabase/functions/enviar-push/index.ts`. As tarefas da casa estão em `supabase/seed.sql`. As tabelas não devem ser redesenhadas. Quem está logado lê e escreve; visitante anônimo não lê nada.

@@ -91,6 +91,19 @@ export function Guia() {
         <p>Item comum, como leite, não paga estrelinha. Qualquer um marca e desmarca. Limpar comprados tira os itens da lista. Estrelinhas já ganhas ficam.</p>
       </Cartao>
 
+      <Cartao titulo="Notificações">
+        <p>
+          Em Ajustes, Ativar notificações liga o aviso neste aparelho. O toque tem de ser seu. No iPhone, só funciona
+          com o Xingxing aberto pelo ícone da Tela de Início, no iOS 16.4 ou mais novo. No Safari, o botão explica isso
+          e não pede permissão.
+        </p>
+        <p>Quando um conclui uma tarefa, o outro recebe. Item novo na lista também avisa, e esse aviso tem interruptor próprio.</p>
+        <p>
+          O resumo do dia lista as rotinas de hoje e as atrasadas, no horário escolhido em Ajustes. O horário vale para
+          os dois. Desligar neste aparelho tira o aviso daqui; o outro celular continua.
+        </p>
+      </Cartao>
+
       <Cartao titulo="Os dois celulares">
         <p>A sessão fica neste aparelho. Fechar o app não pede a senha de novo. Sair, em Ajustes, é o que encerra.</p>
         <p>Em Ajustes também ficam o nome que o outro vê, com até 40 caracteres, e a aparência: Automático, Dia ou Noite. Automático acompanha o claro ou escuro do celular.</p>
