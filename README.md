@@ -232,25 +232,30 @@ npx supabase functions deploy enviar-push --no-verify-jwt
 
 ## Deploy na Vercel
 
-O plano é o Hobby, gratuito para este uso pessoal. O site precisa das duas variáveis do `.env` no momento do build. Elas não vão no git.
+O repositório já está ligado à Vercel, no plano Hobby. O push da `main` publica sozinho. O endereço de produção é:
 
-1. Abra [https://vercel.com](https://vercel.com) e entre com a mesma conta GitHub do repositório `willsimoes/xingxing`.
-2. **Add New…** → **Project** e escolha o repositório `xingxing`.
-3. Framework: Vite. Deixe o comando de build `npm run build` e a pasta `dist`.
-4. Em **Environment Variables**, crie as duas, para Production:
+https://xingxing-xingxing12.vercel.app
+
+Hoje esse endereço pede login da Vercel antes de abrir o app. No iPhone isso impede instalar e receber aviso. Desligue a trava:
+
+1. Abra [o projeto na Vercel](https://vercel.com/xingxing12/xingxing).
+2. Vá em **Settings** → **Deployment Protection**.
+3. Em **Vercel Authentication**, desligue para Production. Se a opção tiver outro nome, o efeito é o mesmo: visitante sem conta Vercel precisa conseguir abrir o site.
+4. Salve.
+5. Abra de novo https://xingxing-xingxing12.vercel.app. Tem de aparecer o Xingxing, sem tela de login da Vercel.
+
+Se a tela pedir a URL do Supabase, as variáveis não entraram no build. Em **Settings** → **Environment Variables**, crie as duas para Production e faça **Redeploy**:
 
 ```bash
 VITE_SUPABASE_URL=https://nbvvsymwkvofsybolfdi.supabase.co
 VITE_SUPABASE_ANON_KEY=a chave publishable do .env
 ```
 
-5. A chave é a que começa com `sb_publishable_`. Não cole a secret nem a service_role.
-6. Clique em **Deploy** e espere o endereço `https://alguma-coisa.vercel.app`.
-7. No Supabase, abra **Authentication** → **URL Configuration**. Em **Site URL**, cole o endereço da Vercel. Em **Redirect URLs**, cole o mesmo endereço. Salve.
+A chave é a que começa com `sb_publishable_`. Não cole a secret nem a service_role.
 
-Cada `git push` na branch `main` publica de novo.
+No Supabase, abra **Authentication** → **URL Configuration**. Em **Site URL**, cole `https://xingxing-xingxing12.vercel.app`. Em **Redirect URLs**, cole o mesmo endereço. Salve.
 
-No iPhone, com esse endereço HTTPS:
+No iPhone, com a trava desligada:
 
 1. Abra o site no Safari.
 2. Compartilhar → Adicionar à Tela de Início.
