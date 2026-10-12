@@ -1,12 +1,11 @@
-import { IconeAjustes, IconeCompras, IconeGuia, IconeHoje, IconeTarefas } from './Icones'
+import { IconeAjustes, IconeCompras, IconeHoje, IconeTarefas } from './Icones'
 
-export type Aba = 'hoje' | 'tarefas' | 'compras' | 'guia' | 'ajustes'
+export type Aba = 'hoje' | 'tarefas' | 'compras' | 'ajustes'
 
 const abas: { id: Aba; rotulo: string; Icone: typeof IconeHoje }[] = [
   { id: 'hoje', rotulo: 'Hoje', Icone: IconeHoje },
   { id: 'tarefas', rotulo: 'Tarefas', Icone: IconeTarefas },
   { id: 'compras', rotulo: 'Compras', Icone: IconeCompras },
-  { id: 'guia', rotulo: 'Guia', Icone: IconeGuia },
   { id: 'ajustes', rotulo: 'Ajustes', Icone: IconeAjustes },
 ]
 
@@ -21,7 +20,7 @@ export function Navegacao({ aba, aoEscolher }: Props) {
       aria-label="Principal"
       className="sticky bottom-0 border-t border-borda bg-superficie pb-[env(safe-area-inset-bottom)]"
     >
-      <ul className="grid grid-cols-5">
+      <ul className="grid grid-cols-4">
         {abas.map(({ id, rotulo, Icone }) => {
           const ativa = aba === id
           return (

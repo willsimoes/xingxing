@@ -5,7 +5,7 @@ export function mensagemDeEntrada(erro: ErroAuth): string {
   const texto = erro.message.toLowerCase()
 
   if (codigo === 'invalid_credentials' || texto.includes('invalid login credentials')) {
-    return 'E-mail ou senha não conferem.'
+    return 'Username ou senha não conferem.'
   }
   if (codigo === 'email_not_confirmed' || texto.includes('email not confirmed')) {
     return 'Este e-mail ainda não foi confirmado. No painel, apague o usuário e crie de novo com Auto Confirm User ligado.'

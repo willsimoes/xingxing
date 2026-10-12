@@ -72,7 +72,7 @@ Esta query é nova. Rode uma vez, depois das anteriores. Se aparecer que a funç
 
 ### Criar as duas pessoas
 
-Faça isso depois da migration. O banco cria a linha em `profiles` sozinho quando o usuário nasce. O nome inicial é a parte do e-mail antes do `@`. Dá para trocar em Ajustes, dentro do app.
+Faça isso depois da migration. O banco cria a linha em `profiles` sozinho quando o usuário nasce. O nome e o username iniciais saem da parte do e-mail antes do `@`. Dá para trocar o nome, o username e o emoji em Ajustes. O nome pode ficar em branco: aí o app chama a pessoa só pelo username.
 
 1. Menu **Authentication** → **Users**.
 2. **Add user** → **Create new user**. Não use **Send invitation**: o app ainda não tem página para concluir um convite.
@@ -105,10 +105,10 @@ O `.env` não entra no git.
 
 ## O que já dá para ver
 
-- Nome Xingxing, mascote e o texto “Casa em dia, estrelinhas no bolso” na tela de login. Não há botão de criar conta.
+- Nome Xingxing, mascote e o texto “Casa em dia, estrelinhas no bolso” na tela de login. A entrada pede username e senha. Não há botão de criar conta.
 - Tema matchá e sakura. Em Ajustes, Aparência: Automático (padrão), Dia ou Noite. A escolha fica no navegador e vale antes da tela pintar.
 - No modo Automático, o app acompanha o claro/escuro do sistema na hora.
-- Depois de entrar: as abas, o seu nome no topo e, ao lado, as suas estrelinhas desta semana.
+- Depois de entrar: as abas Hoje, Tarefas, Compras e Ajustes. O botão redondo no canto superior esquerdo abre o guia. No topo ficam o @username e as estrelinhas desta semana. O sino, no canto superior direito, mostra os últimos avisos.
 - **Hoje**: rotinas que vencem hoje e as atrasadas. Atrasada ganha 2 estrelinhas a mais por dia (dá para mudar depois em `casa.bonus_por_dia`). Ao concluir, a estrela do topo pula, a próxima data é calculada e a tarefa sai da lista do dia.
 - O cartão verde soma as estrelinhas dos dois contra a meta (300). Os dois placares ficam lado a lado, sem vencedor. Quando uma semana termina, o app fecha a anterior: se a casa bateu a meta, “Semanas seguidas” sobe; se não bateu, volta a zero. A semana em curso não fecha antes da segunda seguinte.
 - **Saúde dos cômodos**: em Hoje, uma barrinha por cômodo. No dia em que a rotina vence ela fica pela metade, sobe quando alguém conclui e desce se atrasar. A mesma barrinha aparece no título de cada cômodo em Tarefas.
@@ -116,12 +116,12 @@ O `.env` não entra no git.
 - O que um faz aparece para o outro sem recarregar a página, se os dois estiverem com o app aberto.
 - **Compras**: lista compartilhada. Dá para adicionar, marcar como comprado e limpar os comprados. “Comprar filtro” entra sozinha, vale 15 estrelinhas e, ao ser marcada, libera “Trocar filtros”. Desmarcar devolve as estrelinhas e bloqueia de novo, desde que a tarefa liberada ainda não tenha sido feita.
 - A sessão fica neste navegador. Fechar a aba não pede a senha de novo. Sair é que encerra.
-- **Notificações**, em Ajustes: ligar neste aparelho, escolher o que avisar e o horário do resumo. O aviso de verdade só sai depois do passo a passo de notificações abaixo. No iPhone, só com o app aberto pelo ícone da Tela de Início.
+- **Notificações**, em Ajustes: ligar neste aparelho, escolher o que avisar e o horário do resumo. O sino no topo lista os 20 avisos mais recentes mesmo sem push. O aviso no celular só sai depois do passo a passo de notificações abaixo. No iPhone, só com o app aberto pelo ícone da Tela de Início.
 
 ## Testar no computador
 
 1. Com o `.env` preenchido e o SQL novo já rodado, rode `npm run dev` e abra o endereço local.
-2. Entre com o e-mail e a senha criados no painel.
+2. Entre com o username e a senha. O username inicial sai da parte do e-mail antes do `@`, em minúsculas e sem ponto. Dá para trocar em Ajustes.
 3. Em **Hoje**, as rotinas do seed aparecem. Se o seed rodou em outro dia, elas entram como atrasadas e mostram o bônus. Conclua “Limpar pia”: ela some de hoje, as estrelinhas sobem no topo e no placar, e a próxima data no banco fica para amanhã.
 4. Toque de novo na caixa, em **Feitas hoje**, para desfazer. A tarefa volta e as estrelinhas saem.
 5. Em **Tarefas**, abra a missão do móvel, marque as quatro etapas. Na última, ela arquiva e paga 60 estrelinhas. **Desfazer** na lista de arquivadas devolve a missão.
@@ -162,7 +162,7 @@ Quando o deploy existir, no Safari do iPhone:
 1. Abra o site.
 2. Toque em Compartilhar.
 3. Toque em Adicionar à Tela de Início.
-4. Abra pelo ícone, entre com o e-mail e a senha, e confira o nome Xingxing e o desenho da macaca.
+4. Abra pelo ícone, entre com o username e a senha, e confira o nome Xingxing e o desenho da macaca.
 5. Feche o app e abra de novo pelo ícone: a sessão continua.
 6. Em Ajustes do iPhone, alterne o modo escuro: no Automático o app muda entre dia e noite. Depois teste Dia e Noite dentro do app.
 
@@ -191,6 +191,17 @@ Se um dia precisar de chaves novas, rode `npm run vapid`, troque a pública em `
 2. Copie o arquivo inteiro `supabase/migrations/20261012143000_notificacoes.sql`, cole e clique em **Run**.
 3. `Success. No rows returned` está certo. Um aviso amarelo sobre extensão significa que o passo 1 não ficou ligado: ligue e rode o arquivo de novo.
 4. Recarregue o app.
+
+### Username, emoji e caixa de avisos
+
+Rode este arquivo depois do SQL de notificações. Sem ele o app não entra: falta a coluna `username`. Pode rodar de novo.
+
+1. No **SQL Editor**, clique em **New query**.
+2. Copie o arquivo inteiro `supabase/migrations/20261012180000_username_e_caixa.sql`, cole e clique em **Run**.
+3. `Success. No rows returned` está certo. Um aviso amarelo sobre realtime não impede o sino: recarregue o app e abra o sino mesmo assim.
+4. Recarregue o app.
+
+Não rode de novo o arquivo `20261012143000_notificacoes.sql` depois deste. Aquele arquivo recria o envio sem a caixa do sino.
 
 ### 3. Guardar o segredo no Vault
 
@@ -264,4 +275,4 @@ No iPhone, com a trava desligada:
 
 ## Banco
 
-O esquema está em `supabase/migrations/20261011190000_esquema_inicial.sql`. Concluir e desfazer estão em `supabase/migrations/20261012070000_concluir_e_desfazer.sql`. Compras e o fechamento da meta estão em `supabase/migrations/20261012120000_compras_e_fechamento.sql`. As notificações estão em `supabase/migrations/20261012143000_notificacoes.sql` e em `supabase/functions/enviar-push/index.ts`. As tarefas da casa estão em `supabase/seed.sql`. As tabelas não devem ser redesenhadas. Quem está logado lê e escreve; visitante anônimo não lê nada.
+O esquema está em `supabase/migrations/20261011190000_esquema_inicial.sql`. Concluir e desfazer estão em `supabase/migrations/20261012070000_concluir_e_desfazer.sql`. Compras e o fechamento da meta estão em `supabase/migrations/20261012120000_compras_e_fechamento.sql`. As notificações estão em `supabase/migrations/20261012143000_notificacoes.sql` e em `supabase/functions/enviar-push/index.ts`. Username, emoji e a caixa do sino estão em `supabase/migrations/20261012180000_username_e_caixa.sql`. As tarefas da casa estão em `supabase/seed.sql`. As tabelas não devem ser redesenhadas. Quem está logado lê e escreve; visitante anônimo não lê nada.

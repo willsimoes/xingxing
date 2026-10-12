@@ -4,7 +4,7 @@ import { Estrela } from '../componentes/Estrela'
 import { XingxingMascote } from '../componentes/XingxingMascote'
 import { useCasa } from '../hooks/useCasa'
 import { useSessao } from '../hooks/useSessao'
-import { nomeDe } from '../lib/perfil'
+import { comoChamar } from '../lib/perfil'
 import { comodoDa, ehAMaisRecente, type Conclusao, type Tarefa } from '../lib/tarefas'
 
 export function Compras() {
@@ -208,10 +208,10 @@ function textoDeQuem(
   prefixo: string,
   id: string | null,
   perfilId: string,
-  pessoas: Parameters<typeof nomeDe>[0],
+  pessoas: Parameters<typeof comoChamar>[0],
 ): string | undefined {
   if (!id) return undefined
-  return `${prefixo} ${id === perfilId ? 'você' : nomeDe(pessoas, id)}`
+  return `${prefixo} ${id === perfilId ? 'você' : comoChamar(pessoas, id)}`
 }
 
 function conclusaoDaTarefa(conclusoes: Conclusao[], tarefaId: string): Conclusao | null {

@@ -7,9 +7,9 @@ export type ValorSessao = {
   perfil: Perfil | null
   outros: Perfil[]
   erroPerfil: string | null
-  entrar: (email: string, senha: string) => Promise<string | null>
+  entrar: (username: string, senha: string) => Promise<string | null>
   sair: () => Promise<string | null>
-  salvarNome: (nome: string) => Promise<string | null>
+  salvarPerfil: (dados: { nome: string; username: string; emoji: string }) => Promise<string | null>
 }
 
 export const ContextoSessao = createContext<ValorSessao | null>(null)

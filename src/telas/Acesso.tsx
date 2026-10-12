@@ -77,11 +77,11 @@ export function Login() {
   async function aoEnviar(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault()
     const dados = new FormData(evento.currentTarget)
-    const email = String(dados.get('email') ?? '')
+    const username = String(dados.get('username') ?? '')
     const senha = String(dados.get('password') ?? '')
     setErro(null)
     setEnviando(true)
-    const mensagem = await entrar(email, senha)
+    const mensagem = await entrar(username, senha)
     if (mensagem) {
       setErro(mensagem)
       setEnviando(false)
@@ -94,17 +94,16 @@ export function Login() {
       <h1 className="text-3xl font-bold">Xingxing</h1>
       <p className="mt-1 text-center text-texto-suave">Casa em dia, estrelinhas no bolso</p>
       <form onSubmit={(evento) => void aoEnviar(evento)} className="mt-8 flex w-full max-w-sm flex-col gap-4">
-        <label className="flex flex-col gap-1 font-medium" htmlFor="email">
-          E-mail
+        <label className="flex flex-col gap-1 font-medium" htmlFor="username">
+          Username
           <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
+            id="username"
+            name="username"
+            type="text"
+            autoComplete="username"
             autoCapitalize="none"
             autoCorrect="off"
             spellCheck={false}
-            inputMode="email"
             required
             className="min-h-11 rounded-[14px] border border-borda bg-superficie px-3 font-normal text-texto"
           />

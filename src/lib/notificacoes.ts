@@ -191,6 +191,73 @@ export async function ligarNotificacoes(cliente: Cliente, usuarioId: string): Pr
   return null
 }
 
+export type Aviso = {
+  id: string
+  titulo: string
+  corpo: string
+  criadaEm: string
+  lida: boolean
+}
+
+export function lerAviso(valor: unknown): Aviso | null {
+  if (!valor || typeof valor !== 'object') return null
+  const linha = valor as Record<string, unknown>
+  if (typeof linha.id !== 'string' || typeof linha.titulo !== 'string' || typeof linha.corpo !== 'string') return null
+  if (typeof linha.criada_em !== 'string' || typeof linha.lida !== 'boolean') return null
+  return {
+    id: linha.id,
+    titulo: linha.titulo,
+    corpo: linha.corpo,
+    criadaEm: linha.criada_em,
+    lida: linha.lida,
+  }
+}
+
+export async function lerAvisos(
+  cliente: Cliente,
+  usuarioId: string,
+): Promise<{ avisos: Aviso[]; erro: string | null }> {
+  const { data, error } = await cliente
+    .from('notificacoes')
+    .select('id, titulo, corpo, criada_em, lida')
+    .eq('usuario_id', usuarioId)
+    .order('criada_em', { ascending: false })
+    .limit(20)
+  if (error) {
+    if (/schema cache|does not exist|42P01/i.test(error.message)) {
+      return {
+        avisos: [],
+        erro: 'A caixa de avisos ainda não existe. No SQL Editor, rode supabase/migrations/20261012180000_username_e_caixa.sql.',
+      }
+    }
+    return { avisos: [], erro: 'Não consegui ler os avisos.' }
+  }
+  const avisos = (Array.isArray(data) ? data : [])
+    .map(lerAviso)
+    .filter((item): item is Aviso => item !== null)
+  return { avisos, erro: null }
+}
+
+export async function marcarAvisosLidos(cliente: Cliente): Promise<string | null> {
+  const { error } = await cliente.rpc('marcar_notificacoes_lidas')
+  if (error) return 'Não consegui marcar os avisos como lidos.'
+  return null
+}
+
+export function textoQuando(iso: string, agora = new Date()): string {
+  const data = new Date(iso)
+  if (Number.isNaN(data.getTime())) return ''
+  const minutos = Math.round((agora.getTime() - data.getTime()) / 60000)
+  if (minutos < 1) return 'agora'
+  if (minutos < 60) return `há ${minutos} min`
+  const horas = Math.round(minutos / 60)
+  if (horas < 24) return horas === 1 ? 'há 1 h' : `há ${horas} h`
+  const dias = Math.round(horas / 24)
+  if (dias === 1) return 'ontem'
+  if (dias < 7) return `há ${dias} dias`
+  return data.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+}
+
 export async function desligarNotificacoes(cliente: Cliente, usuarioId: string): Promise<string | null> {
   if (!('serviceWorker' in navigator)) return null
   const registro = await navigator.serviceWorker.ready

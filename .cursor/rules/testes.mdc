@@ -8,4 +8,4 @@ alwaysApply: true
 - A conta de teste é `teste.cursor.xingxing@example.com`. A senha está em `.cursor/segredos-locais.json` e em `.cursor/rules/conta-teste.mdc`. Esses dois arquivos não entram no git.
 - Ao testar o app, entre com essa conta.
 - Não repita a senha no chat, no README nem em commit.
-- Se um teste mudar dados da casa (tarefas, conclusões, compras, nomes, meta, semanas, preferências ou inscrições de push), volte tudo ao estado anterior antes de encerrar.
+- Se um teste mudar dados da casa (tarefas, conclusões, compras, nomes, username, emoji, meta, semanas, preferências ou inscrições de push), volte tudo ao estado anterior antes de encerrar.

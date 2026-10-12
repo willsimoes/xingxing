@@ -1,5 +1,7 @@
 -- Avisos push: conclusão, item novo na lista e resumo diário.
--- Pode rodar de novo. Se a tarefa do usuário falhar por causa do aviso, a conclusão continua.
+-- Se 20261012180000_username_e_caixa.sql já rodou, não rode este arquivo de novo:
+-- ele recria o envio sem a caixa do sino e sem o username.
+-- Pode rodar de novo só antes de 20261012180000_username_e_caixa.sql. Se a tarefa do usuário falhar por causa do aviso, a conclusão continua.
 -- O envio só sai depois dos segredos no Vault e da função enviar-push. Sem isso, nada quebra: o aviso é ignorado.
 -- Antes de rodar, ligue pg_net e pg_cron em Database → Extensions.
 

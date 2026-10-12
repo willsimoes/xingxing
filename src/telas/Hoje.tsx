@@ -6,7 +6,7 @@ import { XingxingMascote } from '../componentes/XingxingMascote'
 import { useCasa } from '../hooks/useCasa'
 import { useSessao } from '../hooks/useSessao'
 import { textoSemanaPassada } from '../lib/fechamento'
-import { corSegura, nomeDe } from '../lib/perfil'
+import { comoChamar, corSegura } from '../lib/perfil'
 import { saudeDaCasa } from '../lib/saude'
 import {
   bonusDaTarefa,
@@ -112,7 +112,7 @@ export function Hoje() {
             <li key={pessoa.id} className="rounded-[20px] border border-borda bg-superficie p-3">
               <p className="flex min-w-0 items-center gap-1.5 text-sm text-texto-suave">
                 {cor && <span className="size-2.5 shrink-0 rounded-full" style={{ backgroundColor: cor }} aria-hidden />}
-                <span className="truncate">{pessoa.id === perfil.id ? 'Você' : pessoa.nome}</span>
+                <span className="truncate">{pessoa.id === perfil.id ? 'Você' : comoChamar(pessoas, pessoa.id)}</span>
               </p>
               <p className="mt-1 flex items-center gap-1 text-xl font-bold" aria-label={`${saldoNaSemana(dados.conclusoes, pessoa.id, semana)} estrelinhas`}>
                 <Estrela />
@@ -170,7 +170,7 @@ export function Hoje() {
             const total = conclusao.estrelinhasBase + conclusao.estrelinhasBonus
             const minha = conclusao.usuarioId === perfil.id
             const podeDesfazer = minha && ehAMaisRecente(dados.conclusoes, conclusao)
-            const quem = minha ? 'Você' : nomeDe(pessoas, conclusao.usuarioId)
+            const quem = minha ? 'Você' : comoChamar(pessoas, conclusao.usuarioId)
             return (
               <LinhaTarefa
                 key={conclusao.id}

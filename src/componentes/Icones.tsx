@@ -98,6 +98,21 @@ export function IconeAjustes({ className }: Props) {
   )
 }
 
+export function IconeSino({ className }: Props) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <path
+        d="M6 16.2h12l-1.2-2V10a4.8 4.8 0 0 0-9.6 0v4.2L6 16.2z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path d="M10 16.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 export function IconeLapis({ className }: Props) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true">

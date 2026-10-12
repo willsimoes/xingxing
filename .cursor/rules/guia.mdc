@@ -1,0 +1,14 @@
+---
+description: Atualizar a página Guia sempre que o comportamento do app mudar
+alwaysApply: true
+---
+
+# Guia do Xingxing
+
+Toda mudança que a pessoa vê no app entra em `src/telas/Guia.tsx` na mesma tarefa. Isso vale para tela, botão, ajuste, limite, texto de aviso e regra de estrelinhas, tarefas, compras ou notificações.
+
+O guia abre pelo botão redondo no canto superior esquerdo. Não é uma aba da barra de baixo.
+
+O texto descreve o app como ele está agora. Se uma função muda, o cartão correspondente muda junto. Se uma função sai, a frase sai também.
+
+Exemplo: se o sino passar a guardar só 10 avisos, o cartão de notificações deixa de falar em “últimos avisos” sem número e passa a dizer “os 10 mais recentes”.

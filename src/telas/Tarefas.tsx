@@ -6,7 +6,7 @@ import { LinhaTarefa } from '../componentes/LinhaTarefa'
 import { useCasa } from '../hooks/useCasa'
 import { useSessao } from '../hooks/useSessao'
 import { dataEmPortugues } from '../lib/datas'
-import { nomeDe } from '../lib/perfil'
+import { comoChamar } from '../lib/perfil'
 import { notaDasRotinas, rotuloFaixa } from '../lib/saude'
 import {
   bonusDaTarefa,
@@ -202,7 +202,7 @@ export function Tarefas() {
                     <p className="font-medium text-texto-suave line-through">{tarefa.titulo}</p>
                     <p className="text-sm text-texto-suave">
                       {encerrada && recente
-                        ? `Concluída por ${recente.usuarioId === perfil.id ? 'você' : nomeDe([perfil, ...outros], recente.usuarioId)}`
+                        ? `Concluída por ${recente.usuarioId === perfil.id ? 'você' : comoChamar([perfil, ...outros], recente.usuarioId)}`
                         : detalheTarefa(tarefa, dados.comodos)}
                     </p>
                   </div>

@@ -14,11 +14,18 @@ export function Guia() {
 
   return (
     <div>
-      <h2 className="text-lg font-bold">Como funciona</h2>
+      <h2 id="guia-titulo" tabIndex={-1} className="text-lg font-bold">
+        Como funciona
+      </h2>
       <p className="mt-2 text-sm text-texto-suave">
         A Xingxing é a casa dos dois. Vocês jogam juntos: cada um tem o próprio placar, e não existe vencedor da
         semana. A moeda se chama estrelinhas.
       </p>
+
+      <Cartao titulo="Cantos da tela">
+        <p>O botão redondo no canto superior esquerdo abre este guia. Toque de novo, ou escolha uma aba embaixo, para voltar à tela em que você estava.</p>
+        <p>O sino no canto superior direito mostra os últimos avisos. O número é o que ainda não foi aberto.</p>
+      </Cartao>
 
       <Cartao titulo="Estrelinhas">
         <p>O número no topo é o seu, só desta semana. O cartão verde soma os dois contra a meta{meta ? ` de ${meta}` : ''}.</p>
@@ -32,7 +39,7 @@ export function Guia() {
 
       <Cartao titulo="Hoje">
         <p>Entram as rotinas que vencem hoje e as atrasadas. Concluir registra quem fez, calcula a próxima data e tira a tarefa da lista do dia.</p>
-        <p>Em Feitas hoje, dá para desfazer a sua conclusão, se ela ainda for a mais recente daquela tarefa. A tarefa volta e as estrelinhas saem. O que o outro fez aparece, mas só ele desfaz.</p>
+        <p>Em Feitas hoje, dá para desfazer a sua conclusão, se ela ainda for a mais recente daquela tarefa. A tarefa volta e as estrelinhas saem. O que o outro fez aparece como @username, mas só ele desfaz.</p>
       </Cartao>
 
       <Cartao titulo="Meta da semana">
@@ -102,11 +109,23 @@ export function Guia() {
           O resumo do dia lista as rotinas de hoje e as atrasadas, no horário escolhido em Ajustes. O horário vale para
           os dois. Desligar neste aparelho tira o aviso daqui; o outro celular continua.
         </p>
+        <p>
+          Esses avisos também entram no sino, os 20 mais recentes, mesmo sem o push deste aparelho. Abrir o sino marca
+          como lido. Quem aparece no texto é o @username.
+        </p>
       </Cartao>
 
       <Cartao titulo="Os dois celulares">
-        <p>A sessão fica neste aparelho. Fechar o app não pede a senha de novo. Sair, em Ajustes, é o que encerra.</p>
-        <p>Em Ajustes também ficam o nome que o outro vê, com até 40 caracteres, e a aparência: Automático, Dia ou Noite. Automático acompanha o claro ou escuro do celular.</p>
+        <p>Para entrar, use o username e a senha. O e-mail fica só na conta. A sessão fica neste aparelho. Fechar o app não pede a senha de novo. Sair, em Ajustes, é o que encerra.</p>
+        <p>
+          Em Ajustes ficam o emoji, o nome e o username. O nome tem até 40 caracteres e pode ficar em branco. O username
+          tem de 3 a 20: letras minúsculas, números e _. Dá para preencher só o username, sem o nome.
+        </p>
+        <p>
+          No topo, nas tarefas, nas compras e nos avisos, a pessoa aparece como @username. O nome, se existir, fica em
+          Ajustes, na lista de quem também está na casa.
+        </p>
+        <p>A aparência fica em Automático, Dia ou Noite. Automático acompanha o claro ou escuro do celular.</p>
       </Cartao>
     </div>
   )
