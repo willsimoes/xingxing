@@ -51,7 +51,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        cacheId: 'xingxing-v3',
+        cacheId: 'xingxing-v4',
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
         navigateFallback: 'index.html',
         importScripts: ['/sw-push.js'],

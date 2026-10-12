@@ -3,7 +3,7 @@ type Props = { className?: string }
 export function XingxingMascote({ className = '' }: Props) {
   return (
     <img
-      src="/icons/xingxing.svg?v=2"
+      src="/icons/xingxing.svg?v=3"
       alt=""
       width={168}
       height={168}
