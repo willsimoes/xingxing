@@ -203,6 +203,14 @@ Rode este arquivo depois do SQL de notificações. Sem ele o app não entra: fal
 
 Não rode de novo o arquivo `20261012143000_notificacoes.sql` depois deste. Aquele arquivo recria o envio sem a caixa do sino.
 
+### Login pelo username
+
+Rode este arquivo depois do anterior. Sem ele a tela pede o username, mas o banco não acha a conta. Pode rodar de novo.
+
+1. No **SQL Editor**, clique em **New query**.
+2. Copie o arquivo inteiro `supabase/migrations/20261012190000_login_username.sql`, cole e clique em **Run**.
+3. `Success. No rows returned` está certo. Recarregue o app e entre com o username e a senha.
+
 ### 3. Guardar o segredo no Vault
 
 Ainda no **SQL Editor**, nova query. Troque `COLE_O_SEGREDO` pelo valor `notificacaoSegredo` do arquivo `.cursor/segredos-locais.json`. A URL já é a do projeto.
@@ -275,4 +283,4 @@ No iPhone, com a trava desligada:
 
 ## Banco
 
-O esquema está em `supabase/migrations/20261011190000_esquema_inicial.sql`. Concluir e desfazer estão em `supabase/migrations/20261012070000_concluir_e_desfazer.sql`. Compras e o fechamento da meta estão em `supabase/migrations/20261012120000_compras_e_fechamento.sql`. As notificações estão em `supabase/migrations/20261012143000_notificacoes.sql` e em `supabase/functions/enviar-push/index.ts`. Username, emoji e a caixa do sino estão em `supabase/migrations/20261012180000_username_e_caixa.sql`. As tarefas da casa estão em `supabase/seed.sql`. As tabelas não devem ser redesenhadas. Quem está logado lê e escreve; visitante anônimo não lê nada.
+O esquema está em `supabase/migrations/20261011190000_esquema_inicial.sql`. Concluir e desfazer estão em `supabase/migrations/20261012070000_concluir_e_desfazer.sql`. Compras e o fechamento da meta estão em `supabase/migrations/20261012120000_compras_e_fechamento.sql`. As notificações estão em `supabase/migrations/20261012143000_notificacoes.sql` e em `supabase/functions/enviar-push/index.ts`. Username, emoji e a caixa do sino estão em `supabase/migrations/20261012180000_username_e_caixa.sql`. O login pelo username está em `supabase/migrations/20261012190000_login_username.sql`. As tarefas da casa estão em `supabase/seed.sql`. As tabelas não devem ser redesenhadas. Quem está logado lê e escreve; visitante anônimo não lê nada.

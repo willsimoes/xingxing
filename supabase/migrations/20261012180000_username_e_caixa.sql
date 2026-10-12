@@ -314,22 +314,3 @@ $$;
 revoke all on function public.enfileirar_notificacao(uuid[], text, text, text) from public, anon, authenticated;
 revoke all on function public.notificar_conclusao() from public, anon, authenticated;
 revoke all on function public.notificar_item_compra() from public, anon, authenticated;
-
--- A tela de login pede o username. Esta função devolve só o e-mail daquela pessoa, para o Supabase entrar.
--- Anônimo não lê a tabela profiles; a função corre como dona e não lista as outras contas.
-create or replace function public.email_por_username(p_username text)
-returns text
-language sql
-stable
-security definer
-set search_path = ''
-as $$
-  select users.email
-  from public.profiles
-  join auth.users as users on users.id = profiles.id
-  where profiles.username = lower(regexp_replace(trim(coalesce(p_username, '')), '^@+', ''))
-  limit 1;
-$$;
-
-revoke all on function public.email_por_username(text) from public;
-grant execute on function public.email_por_username(text) to anon, authenticated;

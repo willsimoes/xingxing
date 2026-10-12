@@ -118,7 +118,7 @@ function SessaoLigada({
     const { data, error } = await cliente.rpc('email_por_username', { p_username: limpo })
     if (error) {
       if (/schema cache|does not exist|email_por_username/i.test(error.message)) {
-        return 'O login por username ainda não está no banco. No SQL Editor, rode supabase/migrations/20261012180000_username_e_caixa.sql.'
+        return 'O login por username ainda não está no banco. No SQL Editor, rode supabase/migrations/20261012190000_login_username.sql.'
       }
       return 'Não consegui entrar. Tente de novo em instantes.'
     }
