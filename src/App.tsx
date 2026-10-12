@@ -17,6 +17,7 @@ import { Abrindo, AvisoConfiguracao, Login, PerfilIndisponivel } from './telas/A
 import { Compras } from './telas/Compras'
 import { Guia } from './telas/Guia'
 import { Hoje } from './telas/Hoje'
+import { Loja } from './telas/Loja'
 import { Tarefas } from './telas/Tarefas'
 
 export default function App() {
@@ -123,6 +124,7 @@ function Casa({ tema }: { tema: ReturnType<typeof useTema> }) {
             {aba === 'hoje' && <Hoje />}
             {aba === 'tarefas' && <Tarefas />}
             {aba === 'compras' && <Compras />}
+            {aba === 'loja' && <Loja />}
             {aba === 'ajustes' && <Ajustes escolha={tema.escolha} aoEscolher={tema.definir} />}
           </>
         )}

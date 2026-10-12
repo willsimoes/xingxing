@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { AjustesLoja } from '../componentes/AjustesLoja'
 import { IconeCheck } from '../componentes/Icones'
 import { PainelNotificacoes } from '../componentes/PainelNotificacoes'
 import { useSessao } from '../hooks/useSessao'
@@ -182,6 +183,7 @@ export function Ajustes({ escolha, aoEscolher }: Props) {
           </div>
         )}
       </section>
+      <AjustesLoja />
       <PainelNotificacoes />
       <button
         type="button"

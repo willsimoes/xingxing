@@ -29,17 +29,18 @@ export function Guia() {
 
       <Cartao titulo="Estrelinhas">
         <p>O número no topo é o seu, só desta semana. O cartão verde soma os dois contra a meta{meta ? ` de ${meta}` : ''}.</p>
+        <p>Na aba Loja, Ganhas é tudo o que você já conquistou. Para gastar é o que ainda dá para usar num cupom ou no cofrinho. Gastar não mexe no número da semana.</p>
         {bonus !== undefined && bonus > 0 ? (
           <p>Rotina atrasada vale mais {bonus} estrelinhas por dia de atraso, até alguém fazer. O bônus aparece na própria tarefa.</p>
         ) : (
           <p>Rotina atrasada não ganha estrelinha extra.</p>
         )}
-        <p>Ao concluir, a estrela do topo pula. Missão paga quando a última etapa fecha. Compra da casa paga quando é marcada na lista.</p>
+        <p>Ao concluir, a estrela do topo pula. Missão paga quando a última etapa fecha. Compra da casa paga quando é marcada na lista. O extrato, na loja, mostra de onde veio cada estrelinha.</p>
       </Cartao>
 
       <Cartao titulo="Hoje">
         <p>Entram as rotinas que vencem hoje e as atrasadas. Concluir registra quem fez, calcula a próxima data e tira a tarefa da lista do dia.</p>
-        <p>Em Feitas hoje, dá para desfazer a sua conclusão, se ela ainda for a mais recente daquela tarefa. A tarefa volta e as estrelinhas saem. O que o outro fez aparece como @username, mas só ele desfaz.</p>
+        <p>Em Feitas hoje, dá para desfazer a sua conclusão, se ela ainda for a mais recente daquela tarefa. A tarefa volta. Se essas estrelinhas ainda estavam para gastar, o saldo da loja acompanha. O que o outro fez aparece como @username, mas só ele desfaz.</p>
       </Cartao>
 
       <Cartao titulo="Meta da semana">
@@ -49,6 +50,13 @@ export function Guia() {
         </p>
         <p>A semana que está em curso continua aberta. Uma semana antiga sem nenhuma estrelinha, de antes de vocês começarem a fechar, não conta como derrota. Depois disso, semana vazia também zera a sequência.</p>
         {recompensa && <p>A recompensa combinada desta casa: {recompensa}</p>}
+      </Cartao>
+
+      <Cartao titulo="Loja">
+        <p>A aba Loja lista os cupons da casa. Cada um gasta o próprio saldo, e outra pessoa da casa cumpre. Se houver mais de uma, o resgate pede quem. Resgatar pede confirmação e avisa essa pessoa. Ela marca feito, e quem resgatou carimba Cumprido.</p>
+        <p>Passa a vez custa a base do cupom mais metade das estrelinhas da tarefa. O outro pode aceitar ou devolver. Devolver recoloca as estrelinhas para gastar. O limite da semana fica em Ajustes.</p>
+        <p>O cofrinho é um desejo dos dois. Cada um deposita do próprio saldo. A barra mostra a parte de cada um. Quando enche, o desejo está cumprido e o próximo se combina em Ajustes.</p>
+        <p>Em Ajustes dá para mudar custo, ícone, limite, prazo e o desejo do cofrinho, e também criar um cupom novo.</p>
       </Cartao>
 
       <Cartao titulo="Saúde dos cômodos">
@@ -104,7 +112,7 @@ export function Guia() {
           com o Xingxing aberto pelo ícone da Tela de Início, no iOS 16.4 ou mais novo. No Safari, o botão explica isso
           e não pede permissão.
         </p>
-        <p>Quando um conclui uma tarefa, o outro recebe. Item novo na lista também avisa, e esse aviso tem interruptor próprio.</p>
+        <p>Quando um conclui uma tarefa, o outro recebe. Item novo na lista também avisa, e esse aviso tem interruptor próprio. Cupom resgatado, cupom feito, carimbo, Passa a vez e cofrinho cheio também avisam.</p>
         <p>
           O resumo do dia lista as rotinas de hoje e as atrasadas, no horário escolhido em Ajustes. O horário vale para
           os dois. Desligar neste aparelho tira o aviso daqui; o outro celular continua.

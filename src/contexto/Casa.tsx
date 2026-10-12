@@ -13,7 +13,19 @@ import {
 } from '../lib/acoesTarefa'
 import { dataNoFuso, FUSO_PADRAO, segundaDaSemana } from '../lib/datas'
 import { precisaFechar } from '../lib/fechamento'
+import {
+  aceitarPassaVez,
+  confirmarCupom,
+  depositarCofrinho,
+  marcarCupomFeito,
+  negociarPassaVez,
+  resgatarCupom,
+  salvarCofrinho,
+  salvarCupom,
+  salvarLimitePassaVez,
+} from '../lib/acoesLoja'
 import { lerTudo, type DadosCasa } from '../lib/lerCasa'
+import { lerLoja, type Cupom, type DadosLoja } from '../lib/loja'
 import { supabase } from '../lib/supabase'
 import type { RascunhoTarefa } from '../lib/tarefas'
 import { ContextoCasa } from './contextoCasa'
@@ -28,6 +40,8 @@ export function ProvedorCasa({ children }: { children: ReactNode }) {
 function CasaLigada({ cliente, children }: { cliente: SupabaseClient; children: ReactNode }) {
   const { perfil } = useSessao()
   const [dados, setDados] = useState<DadosCasa | null>(null)
+  const [dadosLoja, setDadosLoja] = useState<DadosLoja | null>(null)
+  const [erroLoja, setErroLoja] = useState<string | null>(null)
   const [erro, setErro] = useState<string | null>(null)
   const [carregando, setCarregando] = useState(true)
   const [agora, setAgora] = useState(() => new Date())
@@ -63,14 +77,19 @@ function CasaLigada({ cliente, children }: { cliente: SupabaseClient; children: 
           if (!vivo || meu !== pedido) return
         }
       }
-      setCarregando(false)
       setAgora(new Date())
       if (resultado.erro || !resultado.dados) {
+        setCarregando(false)
         setErro(resultado.erro ?? 'Não consegui ler as tarefas.')
         return
       }
       setErro(null)
       setDados(resultado.dados)
+      const loja = await lerLoja(cliente)
+      if (!vivo || meu !== pedido) return
+      setDadosLoja(loja.dados)
+      setErroLoja(loja.erro)
+      setCarregando(false)
     }
 
     carregarRef.current = carregar
@@ -92,6 +111,22 @@ function CasaLigada({ cliente, children }: { cliente: SupabaseClient; children: 
     }
     canal.subscribe()
 
+    return () => {
+      window.clearTimeout(timer)
+      void cliente.removeChannel(canal)
+    }
+  }, [cliente])
+
+  useEffect(() => {
+    let timer = 0
+    const canal = cliente.channel('xingxing-loja')
+    for (const tabela of ['movimentos', 'resgates', 'cofrinhos', 'cupons'] as const) {
+      canal.on('postgres_changes', { event: '*', schema: 'public', table: tabela }, () => {
+        window.clearTimeout(timer)
+        timer = window.setTimeout(() => void carregarRef.current(), 200)
+      })
+    }
+    canal.subscribe()
     return () => {
       window.clearTimeout(timer)
       void cliente.removeChannel(canal)
@@ -194,6 +229,12 @@ function CasaLigada({ cliente, children }: { cliente: SupabaseClient; children: 
     return falha
   }
 
+  async function agirLoja(acao: () => Promise<string | null>) {
+    const falha = await acao()
+    await carregarRef.current()
+    return falha
+  }
+
   async function reativar(tarefaId: string) {
     const atual = dadosRef.current
     const tarefa = atual?.tarefas.find((item) => item.id === tarefaId)
@@ -213,6 +254,8 @@ function CasaLigada({ cliente, children }: { cliente: SupabaseClient; children: 
         erro,
         avisoFechamento,
         dados,
+        dadosLoja,
+        erroLoja,
         hoje,
         semana,
         animacaoEstrela,
@@ -226,6 +269,27 @@ function CasaLigada({ cliente, children }: { cliente: SupabaseClient; children: 
         marcarCompra,
         comprarTarefa,
         limparCompras,
+        resgatar: (cupomId, tarefaId, quem) => agirLoja(() => resgatarCupom(cliente, cupomId, tarefaId, quem)),
+        marcarFeito: (resgateId) => agirLoja(() => marcarCupomFeito(cliente, resgateId)),
+        confirmarResgate: (resgateId) => agirLoja(() => confirmarCupom(cliente, resgateId)),
+        aceitarPassa: (resgateId) => agirLoja(() => aceitarPassaVez(cliente, resgateId)),
+        devolverPassa: (resgateId) => agirLoja(() => negociarPassaVez(cliente, resgateId)),
+        depositar: (quantidade) => agirLoja(() => depositarCofrinho(cliente, quantidade)),
+        salvarCupomLoja: (cupom: Cupom) =>
+          agirLoja(() =>
+            salvarCupom(cliente, {
+              id: cupom.id || null,
+              titulo: cupom.titulo,
+              descricao: cupom.descricao,
+              icone: cupom.icone,
+              custo: cupom.custo,
+              limiteSemana: cupom.limiteSemana,
+              prazoDias: cupom.prazoDias,
+              ativo: cupom.ativo,
+            }),
+          ),
+        salvarDesejo: (titulo, descricao, custo) => agirLoja(() => salvarCofrinho(cliente, { titulo, descricao, custo })),
+        salvarLimite: (valor) => agirLoja(() => salvarLimitePassaVez(cliente, valor)),
       }}
     >
       {children}

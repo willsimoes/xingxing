@@ -1,0 +1,12 @@
+---
+description: Plano de gamificação; loja e saldos já existem, o resto espera pedido
+alwaysApply: true
+---
+
+# Gamificação adiada
+
+A lojinha, o cofrinho e os dois saldos de estrelinhas já estão implementados. O histórico fica em `movimentos`. A tela é a aba Loja. O SQL é `supabase/migrations/20261012200000_loja_e_saldos.sql`.
+
+Ainda não implementado, e só quando a pessoa pedir: meta sugerida, retrospectiva, lanternas, folga, marcos, estrela da sorte, atraso em percentual, combo, gratidão, desafio da semana, galho de cerejeira e falas da Xingxing. Não implemente conquistas.
+
+Antes de desenhar o que falta, leia `.cursor/plans/gamificacao.md`.

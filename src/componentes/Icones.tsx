@@ -82,6 +82,22 @@ export function IconeGuia({ className }: Props) {
   )
 }
 
+export function IconeLoja({ className }: Props) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <rect x="4" y="10" width="16" height="9" rx="1.6" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M4 10h16M12 10v9M12 10c-2 0-3.2-2.8-1.6-4S12 8.2 12 10zM12 10c2 0 3.2-2.8 1.6-4S12 8.2 12 10z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 export function IconeAjustes({ className }: Props) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true">

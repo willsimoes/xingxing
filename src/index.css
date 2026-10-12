@@ -54,6 +54,7 @@
 
 html {
   -webkit-tap-highlight-color: transparent;
+  font-size: 17px;
 }
 
 body {
@@ -62,7 +63,7 @@ body {
   background: var(--fundo);
   color: var(--texto);
   font-family: 'Zen Maru Gothic', system-ui, sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
 }
 
@@ -71,7 +72,7 @@ input,
 textarea,
 select {
   font: inherit;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 :focus-visible {
@@ -99,8 +100,22 @@ select {
   transition: width 300ms ease;
 }
 
+@keyframes cofrinho-cheio {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.cofrinho-cheio {
+  animation: cofrinho-cheio 400ms ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .estrela-pula {
+  .estrela-pula,
+  .cofrinho-cheio {
     animation: none;
   }
 
